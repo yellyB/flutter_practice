@@ -55,7 +55,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.deepPurple,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => QuizScreen(quizs: quizs),
+                        ),
+                      );
+                    },
                     child: const Text(
                       '지금 퀴즈 풀기',
                       style: TextStyle(color: Colors.white),
