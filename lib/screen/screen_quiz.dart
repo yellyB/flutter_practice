@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:quiz_app_test/model/model_quiz.dart';
 
@@ -9,9 +10,9 @@ class QuizScreen extends StatefulWidget {
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  List<int> _answers = [-1, -1, -1];
-  List<bool> _answerState = [false, false, false, false];
-  int _currentIndex = 0;
+  final List<int> _answers = [-1, -1, -1];
+  final List<bool> _answerState = [false, false, false, false];
+  final int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +25,86 @@ class _QuizScreenState extends State<QuizScreen> {
         body: Center(
           child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.deepPurple)),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Colors.deepPurple),
+            ),
             width: width * 0.85,
             height: height * 0.5,
+            child: CarouselSlider(
+              options: CarouselOptions(height: 400.0),
+              // todo: _buildQuizCard 로 변경
+              items: [1, 2, 3, 4, 5].map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 5.0,
+                        ),
+                        decoration: const BoxDecoration(
+                          color: Colors.amber,
+                        ),
+                        child: Text(
+                          'text $i',
+                          style: const TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ));
+                  },
+                );
+              }).toList(),
+              // itemBuilder: (BuildContext context, int index) {
+              //   return _buildQuizCard(widget.quizs[index], width, height);
+            ),
           ),
         ),
       ),
     );
+  }
+
+  Widget _buildQuizCard(Quiz quiz, double width, double height) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.white),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.fromLTRB(0, width * 0.024, 0, width * 0.024),
+            child: Text(
+              'Q${_currentIndex + 1}.',
+              style: TextStyle(
+                fontSize: width * 0.06,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Container(
+            width: width * 0.8,
+            padding: EdgeInsets.only(top: width * 0.012),
+            child: Text(
+              quiz.title,
+            ),
+          ),
+          Expanded(
+            child: Container(),
+          ),
+          Column(
+            children: _buildCandidates(width, quiz),
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<Widget> _buildCandidates(double width, Quiz quiz) {
+    List<Widget> _children = [];
+    for (int i = 0; i < 4; i++) {
+      // _children.add();
+    }
+
+    return '';
   }
 }
