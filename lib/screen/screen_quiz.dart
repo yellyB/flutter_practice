@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:quiz_app_test/model/model_quiz.dart';
@@ -33,25 +34,13 @@ class _QuizScreenState extends State<QuizScreen> {
             child: CarouselSlider(
               options: CarouselOptions(height: 400.0),
               // todo: _buildQuizCard 로 변경
-              items: [1, 2, 3, 4, 5].map((i) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 5.0,
-                        ),
-                        decoration: const BoxDecoration(
-                          color: Colors.amber,
-                        ),
-                        child: Text(
-                          'text $i',
-                          style: const TextStyle(
-                            fontSize: 16.0,
-                          ),
-                        ));
-                  },
-                );
+              items: [
+                0,
+                1,
+                2,
+              ].map((index) {
+                return _buildQuizCard(
+                    index, widget.quizs[index], width, height);
               }).toList(),
               // itemBuilder: (BuildContext context, int index) {
               //   return _buildQuizCard(widget.quizs[index], width, height);
@@ -62,7 +51,7 @@ class _QuizScreenState extends State<QuizScreen> {
     );
   }
 
-  Widget _buildQuizCard(Quiz quiz, double width, double height) {
+  Widget _buildQuizCard(int index, Quiz quiz, double width, double height) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -74,7 +63,8 @@ class _QuizScreenState extends State<QuizScreen> {
           Container(
             padding: EdgeInsets.fromLTRB(0, width * 0.024, 0, width * 0.024),
             child: Text(
-              'Q${_currentIndex + 1}.',
+              // 'Q${_currentIndex + 1}.',
+              'Q${index + 1}.',
               style: TextStyle(
                 fontSize: width * 0.06,
                 fontWeight: FontWeight.bold,
@@ -84,27 +74,29 @@ class _QuizScreenState extends State<QuizScreen> {
           Container(
             width: width * 0.8,
             padding: EdgeInsets.only(top: width * 0.012),
-            child: Text(
-              quiz.title,
-            ),
+            child: AutoSizeText(quiz.title,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                style: TextStyle(
+                    fontSize: width * 0.048, fontWeight: FontWeight.bold)),
           ),
           Expanded(
             child: Container(),
           ),
-          Column(
-            children: _buildCandidates(width, quiz),
-          ),
+          // Column(
+          //   children: _buildCandidates(width, quiz),
+          // ),
         ],
       ),
     );
   }
 
-  List<Widget> _buildCandidates(double width, Quiz quiz) {
-    List<Widget> _children = [];
-    for (int i = 0; i < 4; i++) {
-      // _children.add();
-    }
+//   List<Widget> _buildCandidates(double width, Quiz quiz) {
+//     List<Widget> _children = [];
+//     for (int i = 0; i < 4; i++) {
+//       // _children.add();
+//     }
 
-    return '';
-  }
+//     return '';
+//   }
 }
