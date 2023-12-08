@@ -13,8 +13,8 @@ class QuizScreen extends StatefulWidget {
 
 class _QuizScreenState extends State<QuizScreen> {
   final List<int> _answers = [-1, -1, -1];
-  final List<bool> _answerState = [false, false, false, false];
-  final int _currentIndex = 0;
+  List<bool> _answerState = [false, false, false, false];
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _QuizScreenState extends State<QuizScreen> {
             height: height * 0.5,
             child: CarouselSlider(
               options: CarouselOptions(height: 400.0),
-              // todo: _buildQuizCard 로 변경
+              // todo: quiz 의 개수만큼 map 돌리기
               items: [
                 0,
                 1,
@@ -43,8 +43,6 @@ class _QuizScreenState extends State<QuizScreen> {
                 return _buildQuizCard(
                     index, widget.quizs[index], width, height);
               }).toList(),
-              // itemBuilder: (BuildContext context, int index) {
-              //   return _buildQuizCard(widget.quizs[index], width, height);
             ),
           ),
         ),
@@ -88,6 +86,35 @@ class _QuizScreenState extends State<QuizScreen> {
           Column(
             children: _buildCandidates(width, quiz),
           ),
+          Container(
+              padding: EdgeInsets.all(width * 0.024),
+              child: Center(
+                child: ButtonTheme(
+                  minWidth: width * 0.5,
+                  height: height * 0.05,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.deepPurple,
+                      ),
+                      onPressed: _answers[_currentIndex] == -1
+                          ? null
+                          : () {
+                              if (_currentIndex == widget.quizs.length - 1) {
+                              } else {
+                                _answerState = [false, false, false, false];
+                                _currentIndex += 1;
+                                // todo: CarouselSlider 의 컨트롤러 생성해서 다음 문제로 넘어가도록 핸들링
+                              }
+                            },
+                      child: _currentIndex == widget.quizs.length - 1
+                          ? const Text('결과보기')
+                          : const Text('다음문제')),
+                ),
+              ))
         ],
       ),
     );
