@@ -32,17 +32,13 @@ class _QuizScreenState extends State<QuizScreen> {
             ),
             width: width * 0.85,
             height: height * 0.5,
-            child: CarouselSlider(
+            child: CarouselSlider.builder(
               options: CarouselOptions(height: 400.0),
-              // todo: quiz 의 개수만큼 map 돌리기
-              items: [
-                0,
-                1,
-                2,
-              ].map((index) {
+              itemCount: widget.quizs.length,
+              itemBuilder: (BuildContext context, int index, int realIndex) {
                 return _buildQuizCard(
                     index, widget.quizs[index], width, height);
-              }).toList(),
+              },
             ),
           ),
         ),
