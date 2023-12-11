@@ -15,6 +15,7 @@ class _QuizScreenState extends State<QuizScreen> {
   final List<int> _answers = [-1, -1, -1];
   List<bool> _answerState = [false, false, false, false];
   int _currentIndex = 0;
+  CarouselController _controller = CarouselController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +40,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 return _buildQuizCard(
                     index, widget.quizs[index], width, height);
               },
+              carouselController: _controller,
             ),
           ),
         ),
@@ -70,11 +72,15 @@ class _QuizScreenState extends State<QuizScreen> {
           Container(
             width: width * 0.8,
             padding: EdgeInsets.only(top: width * 0.012),
-            child: AutoSizeText(quiz.title,
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                style: TextStyle(
-                    fontSize: width * 0.048, fontWeight: FontWeight.bold)),
+            child: AutoSizeText(
+              quiz.title,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              style: TextStyle(
+                fontSize: width * 0.048,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
           Expanded(
             child: Container(),
@@ -83,34 +89,35 @@ class _QuizScreenState extends State<QuizScreen> {
             children: _buildCandidates(width, quiz),
           ),
           Container(
-              padding: EdgeInsets.all(width * 0.024),
-              child: Center(
-                child: ButtonTheme(
-                  minWidth: width * 0.5,
-                  height: height * 0.05,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.deepPurple,
-                      ),
-                      onPressed: _answers[_currentIndex] == -1
-                          ? null
-                          : () {
-                              if (_currentIndex == widget.quizs.length - 1) {
-                              } else {
-                                _answerState = [false, false, false, false];
-                                _currentIndex += 1;
-                                // todo: CarouselSlider 의 컨트롤러 생성해서 다음 문제로 넘어가도록 핸들링
-                              }
-                            },
-                      child: _currentIndex == widget.quizs.length - 1
-                          ? const Text('결과보기')
-                          : const Text('다음문제')),
+            padding: EdgeInsets.all(width * 0.024),
+            child: Center(
+              child: ButtonTheme(
+                minWidth: width * 0.5,
+                height: height * 0.05,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              ))
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.deepPurple,
+                    ),
+                    onPressed: _answers[_currentIndex] == -1
+                        ? null
+                        : () {
+                            if (_currentIndex == widget.quizs.length - 1) {
+                            } else {
+                              _answerState = [false, false, false, false];
+                              _currentIndex += 1;
+                              _controller.nextPage();
+                            }
+                          },
+                    child: _currentIndex == widget.quizs.length - 1
+                        ? const Text('결과보기')
+                        : const Text('다음문제')),
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -118,7 +125,8 @@ class _QuizScreenState extends State<QuizScreen> {
 
   List<Widget> _buildCandidates(double width, Quiz quiz) {
     List<Widget> _children = [];
-    for (int i = 0; i < 4; i++) {
+    int countOfCandidate = quiz.candidates.length;
+    for (int i = 0; i < countOfCandidate; i++) {
       _children.add(
         CandWidget(
           index: i,
@@ -127,7 +135,7 @@ class _QuizScreenState extends State<QuizScreen> {
           answerState: _answerState[i],
           tap: () {
             setState(() {
-              for (int j = 0; j < 4; j++) {
+              for (int j = 0; j < countOfCandidate; j++) {
                 if (j == i) {
                   _answerState[j] = true;
                   _answers[_currentIndex] = j;
