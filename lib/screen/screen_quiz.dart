@@ -98,23 +98,27 @@ class _QuizScreenState extends State<QuizScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: Colors.deepPurple,
-                    ),
-                    onPressed: _answers[_currentIndex] == -1
-                        ? null
-                        : () {
-                            if (_currentIndex == widget.quizs.length - 1) {
-                            } else {
-                              _answerState = [false, false, false, false];
-                              _currentIndex += 1;
-                              _controller.nextPage();
-                            }
-                          },
-                    child: _currentIndex == widget.quizs.length - 1
-                        ? const Text('결과보기')
-                        : const Text('다음문제')),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Colors.deepPurple,
+                  ),
+                  onPressed: _answers[_currentIndex] == -1
+                      ? null
+                      : () {
+                          if (_currentIndex == widget.quizs.length - 1) {
+                          } else {
+                            // todo:
+                            // 문제점: 버튼 클릭하면 페이지는 넘어가는데 answerState랑 currentIndex가 바로 반영되지 않고, 보기를 눌러야 반영됨.
+                            // 해결되면 _buildQuizCard 에서 문제 번호를 index 대신 currentIndex 로 변경하기
+                            _answerState = [false, false, false, false];
+                            _currentIndex += 1;
+                            _controller.nextPage();
+                          }
+                        },
+                  child: _currentIndex == widget.quizs.length - 1
+                      ? const Text('결과보기')
+                      : const Text('다음문제'),
+                ),
               ),
             ),
           )
