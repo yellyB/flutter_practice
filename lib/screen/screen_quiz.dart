@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:quiz_app_test/model/model_quiz.dart';
+import 'package:quiz_app_test/screen/screen_result.dart';
 import 'package:quiz_app_test/widget/widget_candidate.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -106,6 +107,15 @@ class _QuizScreenState extends State<QuizScreen> {
                       ? null
                       : () {
                           if (_currentIndex == widget.quizs.length - 1) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ResultScreen(
+                                  answers: _answers,
+                                  quizs: widget.quizs,
+                                ),
+                              ),
+                            );
                           } else {
                             // todo:
                             // 문제점: 버튼 클릭하면 페이지는 넘어가는데 answerState랑 currentIndex가 바로 반영되지 않고, 보기를 눌러야 반영됨.
