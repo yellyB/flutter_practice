@@ -81,10 +81,33 @@ class ResultScreen extends StatelessWidget {
                           )),
                       Padding(
                         padding: EdgeInsets.all(width * 0.012),
-                      )
+                      ),
                     ],
                   ),
                 ),
+                Expanded(
+                  child: Container(),
+                ),
+                Container(
+                  padding: EdgeInsets.only(bottom: width * 0.048),
+                  child: ButtonTheme(
+                    minWidth: width * 0.73,
+                    height: height * 0.05,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                      ),
+                      child: const Text(
+                        '홈으로 돌아가기',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
