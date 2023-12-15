@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app_test/model/model_quiz.dart';
+import 'package:quiz_app_test/screen/screen_home.dart';
 
 class ResultScreen extends StatelessWidget {
   List<int> answers;
@@ -97,7 +98,12 @@ class ResultScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return const HomeScreen();
+                        }));
+                      },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
                       ),
